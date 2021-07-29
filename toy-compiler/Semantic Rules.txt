@@ -1,0 +1,328 @@
+<program> <otherFunctions> <mainFunction>
+	<program>.child1=<otherFunctions>.address
+	<program>.child2=<mainFunction>.address
+
+
+<mainFunction> TK_MAIN <stmts> TK_END
+	<mainFunction>.address = <stmts>.address
+
+
+<otherFunctions> <function> <otherFunctions>
+	<otherFunctions>.child1 = <function>.address
+	<otherFunctions>.child2 = <otherFunctions>.address
+
+
+
+<otherFunctions> EPSILON
+	<otherFunctions>.address = NULL
+   
+<function> TK_FUNID <input_par> <output_par> TK_SEM <stmts> TK_END
+	<function>.child1 = TK_FUNID.address
+	<function>.child2 = <input_par>.address
+	<function>.child3 = <output_par>.address
+	<function>.child4 = <stmts>.address
+	
+<input_par> TK_INPUT TK_PARAMETER TK_LIST TK_SQL <parameter_list> TK_SQR
+	<input_par>.address = <parameter_list>.address
+
+<output_par> TK_OUTPUT TK_PARAMETER TK_LIST TK_SQL <parameter_list> TK_SQR
+	<output_par>.address = <parameter_list>.address
+
+<output_par> EPSILON
+	<output_par>.address = NULL
+
+<parameter_list> <dataType> TK_ID <remaining_list>
+	<parameter_list>.child1 =  <dataType>.address
+	<parameter_list>.child2 =  TK_ID.address
+	<parameter_list>.child1 = <remaining_list>.address
+	
+<dataType> <primitiveDatatype>
+	<dataType>.address = <primitiveDatatype>.address
+
+<dataType> <constructedDatatype>
+	<dataType>.address = <constructedDatatype>.address
+
+<primitiveDatatype> TK_INT
+	<primitiveDatatype>.address = TK_INT.address
+<primitiveDatatype> TK_REAL
+	<primitiveDatatype>.address = TK_REAL.address
+	
+<constructedDatatype> TK_RECORD TK_RECORDID
+	<constructedDatatype>.address = TK_RECORDID.address
+	
+<remaining_list> TK_COMMA <parameter_list>
+	<remaining_list>.address = <parameter_list>.address
+	
+<remaining_list> EPSILON
+	<remaining_list>.address = NULL
+	
+<stmts> <typeDefinitions> <declarations> <otherStmts> <returnStmt>
+	<stmts>.child1 = <typeDefinitions>.address
+	<stmts>.child2 = <declarations>.address
+	<stmts>.child3 = <otherStmts>.address
+	<stmts>.child4 = <returnStmt>.address
+	
+	
+<typeDefinitions> <typeDefinition> <typeDefinitions>
+	<typeDefinitions>.child1 = <typeDefinition>.address
+	<typeDefinitions>.child2 = <typeDefinitions>.address
+	
+	
+<typeDefinitions> EPSILON
+	<typeDefinitions>.address = NULL
+
+<typeDefinition> TK_RECORD TK_RECORDID <fieldDefinitions> TK_ENDRECORD TK_SEM
+	<typeDefinition>.child1 = TK_RECORDID.address
+	<typeDefinition>.child2 = <fieldDefinitions>.address
+	
+<fieldDefinitions> <fieldDefinition> <fieldDefinition> <moreFields>
+	<fieldDefinitions>.child1 = <fieldDefinition>.address
+	<fieldDefinitions>.child2 = <fieldDefinition>.address
+	<fieldDefinitions>.child3 = <moreFields>.address
+	
+<fieldDefinition> TK_TYPE <primitiveDatatype> TK_COLON TK_FIELDID TK_SEM
+	<fieldDefinition>.child1 = <primitiveDatatype>.address
+	<fieldDefinition>.child2 = TK_FIELDID.address
+	
+<moreFields> <fieldDefinition> <moreFields>	
+	<moreFields>.child1 = <fieldDefinition>.address
+	<moreFields>.child2 = <moreFields>.address
+	
+<moreFields> EPSILON
+	<moreFields>.address = NULL
+	
+<declarations> <declaration> <declarations>
+	<declarations>.child1 = <declaration>.address
+	<declarations>.child2 = <declarations>.address
+	
+<declarations> EPSILON
+	<declarations>.address = NULL
+	
+<declaration> TK_TYPE <dataType> TK_COLON TK_ID <global_or_not> TK_SEM
+	<declaration>.child1 = <dataType>.address
+	<declaration>.child2 = TK_ID.address
+	<declaration>.child3 = <global_or_not>.address
+	
+<global_or_not> TK_COLON TK_GLOBAL
+	<global_or_not>.address = TK_GLOBAL.address
+
+<global_or_not> EPSILON
+	<global_or_not> = NULL
+
+<otherStmts> <stmt> <otherStmts>
+	<otherStmts>.child1 = <stmt>.address
+	<otherStmts>.child2 = <otherStmts>.address
+
+<otherStmts> EPSILON
+	<otherStmts>.address = NULL
+
+<stmt> <assignmentStmt>
+	<stmt>.address = <assignmentStmt>.address
+
+<stmt> <iterativeStmt>
+	<stmt>.address = <iterativeStmt>.address
+	
+<stmt> <conditionalStmt>
+	<stmt>.address = <conditionalStmt>.address
+	
+<stmt> <ioStmt>
+	<stmt>.address = <ioStmt>.address
+
+<stmt> <funCallStmt>
+	<stmt>.address = <funCallStmt>.address
+	
+<assignmentStmt> <singleOrRecId> TK_ASSIGNOP <arithmeticExpression> TK_SEM
+	<assignmentStmt>.child1 = <singleOrRecId>.address
+	<assignmentStmt>.child2 = <arithmeticExpression>.address
+	
+<singleOrRecId> TK_ID <new_24>
+	<singleOrRecId>.child1 = TK_ID.address
+	<singleOrRecId>.child2 = <new_24>.address
+	
+<new_24> TK_DOT TK_FIELDID
+	<new_24>.address = TK_FIELDID.address
+	
+<new_24> EPSILON
+	<new_24>.address = NULL
+
+<funCallStmt> <outputParameters> TK_CALL TK_FUNID TK_WITH TK_PARAMETERS <inputParameters> TK_SEM
+	<funCallStmt>.child1 = <outputParameters>.address
+	<funCallStmt>.child2 = TK_FUNID.address
+	<funCallStmt>.child3 = <inputParameters>.address
+		
+<outputParameters> TK_SQL <idList> TK_SQR TK_ASSIGNOP
+	<outputParameters>.address = <idList>.address
+
+<outputParameters> EPSILON
+	<outputParameters>.address = NULL
+
+<inputParameters> TK_SQL <idList> TK_SQR
+	<inputParameters>.address = <idList>.address
+
+<iterativeStmt> TK_WHILE TK_OP <booleanExpression> TK_CL <stmt> <otherStmts> TK_ENDWHILE
+	<iterativeStmt>.child1 = <booleanExpression>.address
+	<iterativeStmt>.child2 = <stmt>.address
+	<iterativeStmt>.child3 = <otherStmts>.address
+
+<conditionalStmt> TK_IF TK_OP <booleanExpression> TK_CL TK_THEN <stmt> <otherStmts> <elsePart>
+	<conditionalStmt>.child1 = <booleanExpression>.address
+	<conditionalStmt>.child2 = <stmt>.address
+	<conditionalStmt>.child3 = <otherStmts>.address
+	<conditionalStmt>.child4 = <elsePart>.address
+	
+<elsePart> TK_ELSE <stmt> <otherStmts> TK_ENDIF
+	<elsePart>.child1 = <stmt>.address
+	<elsePart>.child2 = <otherStmts>.address
+
+<elsePart> TK_ENDIF
+	<elsePart>.address = NULL
+	
+<ioStmt> TK_READ TK_OP <singleOrRecId> TK_CL TK_SEM  // how to differntiate btwn read and write
+	<ioStmt>.child1 = TK_READ.address
+	<ioStmt>.child2 = <singleOrRecId>.address
+	
+<ioStmt> TK_WRITE TK_OP <allVar> TK_CL TK_SEM
+		<ioStmt>.child1 = TK_WRITE.address
+	    <ioStmt>.child2 = <allVar>.address
+	
+<allVar> <all>
+	<allVar>.address = <all>.address
+
+<arithmeticExpression> <term> <expPrime>
+
+		if(<expPrime>.address == NULL) {
+			<arithmeticExpression>.address = <term>.address
+				}
+		else {
+			<arithmeticExpression>.address = <expPrime>.address
+			<arithmeticExpression>.child1 = <term>.address
+		
+		}
+	
+	
+<expPrime> <lowPrecedenceOperators> <term> <expPrime>
+	<expPrime>.address = <lowPrecedenceOperators>.address
+	<expPrime>.child2 = <term>.address
+	<expPrime>.child3 = <expPrime>.address
+
+<expPrime> EPSILON
+	<expPrime>.address = NULL
+
+<term> <factor> <termPrime>
+	
+	if (<termPrime>.address != NULL) {<term>.address = <termPrime>.address
+										<term>.child1 = <factor>.address
+									}
+	else
+		<term>.address = <factor>.address
+		
+		
+<termPrime> <highPrecedenceOperators> <factor> <termPrime>
+	<termPrime>.address = <highPrecedenceOperators>.address
+	<termPrime>.child2 = <factor>.address
+	<termPrime>.child3 = <termPrime>.address
+
+<termPrime> EPSILON
+	<termPrime>.address = NULL
+
+<factor> TK_OP <arithmeticExpression> TK_CL
+	<factor>.address = <arithmeticExpression>.address
+
+<factor> <all>
+	<factor>.address = <all>.address
+
+<highPrecedenceOperators> TK_MUL
+	<highPrecedenceOperators>.address = TK_MUL.address
+	
+<highPrecedenceOperators> TK_DIV
+	<highPrecedenceOperators>.address = TK_DIV.address
+	
+<lowPrecedenceOperators> TK_PLUS
+	<lowPrecedenceOperators>.address = TK_PLUS.address
+	
+<lowPrecedenceOperators> TK_MINUS
+	<lowPrecedenceOperators>.address = TK_MINUS.address
+	
+<all> TK_NUM
+	<all>.address = TK_NUM.address
+
+<all> TK_RNUM
+	<all>.address = TK_RNUM.address
+
+<all> TK_ID <temp>
+	<all>.child1 = TK_ID.address
+	<all>.child2 = <temp>.address
+
+<temp> TK_DOT TK_FIELDID
+	<temp>.address = TK_FIELDID.address
+
+<temp> EPSILON
+	<temp>.address = NULL
+
+<booleanExpression> TK_OP <booleanExpression> TK_CL <logicalOp> TK_OP <booleanExpression> TK_CL
+	<booleanExpression>.address = <logicalOp>.address
+	<booleanExpression>.child1 = <booleanExpression>.address
+	<booleanExpression>.child2 = <booleanExpression>.address
+	
+<booleanExpression> <var> <relationalOp> <var>
+	<booleanExpression>.address = <relationalOp>.address
+	<booleanExpression>.child1 = <var>.address
+	<booleanExpression>.child2 = <var>.address
+	
+<booleanExpression> TK_NOT TK_OP <booleanExpression> TK_CL
+	<booleanExpression>.address = TK_NOT.address
+	<booleanExpression>.child1 = <booleanExpression>.address
+	
+<var> TK_ID
+	<var>.address = TK_ID.address
+
+<var> TK_NUM
+	<var>.address = TK_NUM.address
+
+<var> TK_RNUM
+	<var>.address = TK_RNUM.address
+
+<logicalOp> TK_AND
+	<logicalOp>.address= TK_AND.address
+
+<logicalOp> TK_OR
+	<logicalOp>.address= TK_OR.address
+
+<relationalOp> TK_LT
+	<relationalOp>.address = TK_LT.address
+
+<relationalOp> TK_LE
+	<relationalOp>.address = TK_LE.address
+	
+<relationalOp> TK_EQ
+	<relationalOp>.address = TK_EQ.address
+
+<relationalOp> TK_GT
+	<relationalOp>.address = TK_GT.address
+
+<relationalOp> TK_GE
+	<relationalOp>.address = TK_GE.address
+
+<relationalOp> TK_NE
+	<relationalOp>.address = TK_NE.address
+
+<returnStmt> TK_RETURN <optionalReturn> TK_SEM
+	<returnStmt>.child1 = TK_RETURN.address
+	<returnStmt>.child2 = <optionalReturn>.address
+
+
+<optionalReturn> TK_SQL <idList> TK_SQR
+	<optionalReturn>.address = <idList>.address
+
+<optionalReturn> EPSILON
+	<optionalReturn>.address =NULL
+
+<idList> TK_ID <more_ids>
+	<idList>.child1 = TK_ID.address
+	<idList>.child2 = <more_ids>.address
+
+<more_ids> TK_COMMA <idList>
+	<more_ids>.address = <idList>.address
+	
+<more_ids> EPSILON
+	<more_ids>.address = NULL
